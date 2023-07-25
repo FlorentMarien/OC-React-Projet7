@@ -1,5 +1,5 @@
 #page{
-
+    background-color: lightgray;
 }
 /* Header */
 .recherche-header{
@@ -8,7 +8,7 @@
     justify-content: center;
     align-items: center;
     height: 450px;
-    background-color: red;
+    background-color: white;
     /*
     background-image: url("/assets/images/banniere.jpg");
     background-repeat: no-repeat;
@@ -31,8 +31,11 @@
 .blockfiltres-filtres{
     margin: 10px 0;
 }
-.blockfiltres-filtres, .blockfiltres-filtresChecked{
+.blockfiltres-filtres,.blockfiltres-filtres div, .blockfiltres-filtresChecked{
     display: flex;
+}
+.blockfiltres-filtres{
+    justify-content: space-between;
 }
 .dropdown, .blockfiltres-filtresChecked button{
     margin:0 5px;
@@ -42,4 +45,83 @@
 }
 .dropdown-menu li, .btn-group-vertical{
     width: 100%;
+}
+.filtrecolor{
+    background-color: white !important;
+    color: black;
+    border-color: transparent !important;
+}
+.filtrecolor:hover, .filtrecolor:active{
+    background-color: orange !important;
+    border-color: transparent !important;
+}
+.filtrecolor-checked{
+    background-color: orange;
+}
+.filtrecolor-checked:hover{
+    background-color: darkorange;
+}
+.btn-check:checked + .btn-filtrecolor{
+    background-color: orange;
+    border-color: transparent;
+}
+/* Recette card */
+p{
+    margin: 5px 0px;
+}
+.recettes-card{
+    background-color: white;
+    width: 400px;
+    height: 750px;
+    border-radius: 20px; 
+    position: relative;
+}
+.recettes-card-img{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 0;
+}
+.recettes-card-time{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: orange;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+}
+.recettes-card-recettes{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 70%;
+    width: 90%;
+    margin: 0 5%;
+}
+.recettes-card-img{
+    width: 100%;
+    height: 30%;
+}
+.recettes-card-recettes-category{
+   text-transform: uppercase;
+   font-weight: bold;
+}
+.recettes-card-recettes-category,.recettes-card-recettes-ingredient{
+    color: darkgray;
+}
+ul li{
+    list-style: none;
+}
+.recettes-card-recettes-section{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.recettes-card-recettes-section div{
+    width: 45%;
+}
+.recettes-card-recettes-title{
+    font-weight: bold;
+    font-size: 20px;
 }
