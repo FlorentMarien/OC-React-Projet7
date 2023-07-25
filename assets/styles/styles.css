@@ -1,0 +1,45 @@
+#page{
+
+}
+/* Header */
+.recherche-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+    background-color: red;
+    /*
+    background-image: url("/assets/images/banniere.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    */
+}
+.recherche-header-titre{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.recherche-section{
+    width: 70%;
+}
+.input-group i{
+    display: flex;
+}
+
+/* Filtre */
+.blockfiltres-filtres{
+    margin: 10px 0;
+}
+.blockfiltres-filtres, .blockfiltres-filtresChecked{
+    display: flex;
+}
+.dropdown, .blockfiltres-filtresChecked button{
+    margin:0 5px;
+}
+.btn-group-vertical .input-group{
+    margin-bottom: 25px;
+}
+.dropdown-menu li, .btn-group-vertical{
+    width: 100%;
+}
