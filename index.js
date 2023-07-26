@@ -59,6 +59,70 @@ function deleteBtnElement(element){
     document.getElementById(element.id).checked = false;
    changelistingredient(); 
 }
+function getCardRecette(element){
+    let article = document.createElement("article");
+    article.className = "recettes-card";
+    let img = document.createElement("img");
+    img.className = "recettes-card-img";
+    img.src = "assets/PhotosRecettes/"+element.image;
+    let divtime = document.createElement("div");
+    divtime.className = "recettes-card-time";
+    divtime.textContent = element.time;
+    divcontent = document.createElement("div");
+    divcontent.className = "recettes-card-recettes";
+    let p = document.createElement("p");
+    p.className = "recettes-card-recettes-title";
+    p.textContent= element.name;
+    divcontent_mid = document.createElement("div");
+    let pCategoryRecette = document.createElement("p");
+    pCategoryRecette.className = "recettes-card-recettes-category";
+    pCategoryRecette.textContent = "Recettes";
+    let pRecettes = document.createElement("p");
+    pRecettes.className = "recettes-card-recettes-text";
+    pRecettes.textContent = element.description;
+    divcontent_mid.appendChild(pCategoryRecette);
+    divcontent_mid.appendChild(pRecettes);
+    
+    let section = document.createElement("section");
+    section.className = "recettes-card-recettes-section";
+    
+    
+    element.ingredients.forEach((element)=>{
+        let div = document.createElement("div")
+        let pIngredientTitle = document.createElement("p");
+        let pIngredientQuantity = document.createElement("p");
+        pIngredientTitle.textContent = element.ingredient;
+        pIngredientQuantity.className = "recettes-card-recettes-ingredient";
+        let unit = element.unit === undefined ? " " : " "+element.unit;
+        pIngredientQuantity.textContent = element.quantity + unit;
+        div.appendChild(pIngredientTitle);
+        div.appendChild(pIngredientQuantity);
+        section.appendChild(div);
+    });
+    divcontent_bottom = document.createElement("div");
+    let pCategoryIngredient = document.createElement("p");
+    pCategoryIngredient.className = "recettes-card-recettes-category";
+    pCategoryIngredient.textContent = "Ingredients";
+    divcontent_bottom.appendChild(pCategoryIngredient);
+    divcontent_bottom.appendChild(section);
+    divcontent.appendChild(p);
+    divcontent.appendChild(divcontent_mid);
+    divcontent.appendChild(divcontent_bottom);
+    article.appendChild(img);
+    article.appendChild(divtime);
+    article.appendChild(divcontent);
+    return article
+}
+function displayCardRecette(){
+    recipes.forEach((element)=>{
+        document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
+    })
+}
 let array = [];
 changelistingredient();
-window.addEventListener("change",function(e){changelistingredient(e)});
+window.addEventListener("change",function(e){changelistingredient(e)}); 
+
+/* Recipes data include at the top of html index */
+console.log(recipes);
+displayCardRecette();
+//Get data jso

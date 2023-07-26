@@ -66,15 +66,22 @@
     border-color: transparent;
 }
 /* Recette card */
+#container-recettes-card{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
 p{
     margin: 5px 0px;
 }
 .recettes-card{
     background-color: white;
     width: 400px;
-    height: 750px;
+    height: 850px;
     border-radius: 20px; 
     position: relative;
+    margin-bottom: 20px;
 }
 .recettes-card-img{
     border-top-left-radius: 20px;
