@@ -1,29 +1,3 @@
-function changelistingredient(e){
-    arrayFiltreActive = [[],[],[]];
-    document.getElementById("btn-ingredient").childNodes.forEach((element)=>{
-        if(element !== Text) {
-            if(element.checked === true){
-                arrayFiltreActive[0].push(element);
-            }
-        }
-    })
-    document.getElementById("btn-appareils").childNodes.forEach((element)=>{
-        if(element !== Text) {
-            if(element.checked === true){
-                arrayFiltreActive[1].push(element);
-            }
-        }
-    })
-    document.getElementById("btn-ustensiles").childNodes.forEach((element)=>{
-        if(element !== Text) {
-            if(element.checked === true){
-                arrayFiltreActive[2].push(element);
-            }
-        }
-    })
-    changeFiltre();
-    displaylistingredient();
-}
 function displaylistingredient(){
     document.getElementsByClassName("blockfiltres-filtresChecked")[0].innerHTML = "";
     arrayFiltreActive.forEach((pointer)=>{
@@ -36,30 +10,88 @@ function changeFiltre(){
     /* x = pointerIngredient w = pointerUstensiles & y=type 1->ingredient 2->Appareils 3->Ustensiles */
     let x = 0;
     let w = 0;
-    let y=1;
+    let y = 1;
+    document.getElementById("btn-ingredient").innerHTML = "";
+    document.getElementById("btn-appareils").innerHTML = "";
+    document.getElementById("btn-ustensiles").innerHTML = "";
+
     recipes.forEach((element)=>{
         element.ingredients.forEach((ingredient) => {
             if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
                 arrayFiltre[0].push(ingredient.ingredient);
-                y=1;
-                let labelandcheckbox = getCheckboxandlabel(ingredient.ingredient, x, y)
-                x++;
-                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
-                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
             }
         })
         
         element.ustensils.forEach((ustensils) => {
             if(arrayFiltre[2].includes(ustensils) === false) {
                 arrayFiltre[2].push(ustensils);
-                y=3;
-                let labelandcheckbox = getCheckboxandlabel(ustensils, w, y)
-                w++;
-                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[0]);
-                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[1]);
             }
         })
     })
+
+    displayFiltre(0);
+}
+function displayFiltre(x){
+    let z = 0;
+    let y = 0;
+    switch (x){
+        case 0:
+            y=0;
+            arrayFiltre[0].forEach((element)=>{
+                let labelandcheckbox = getCheckboxandlabel(element, z, y)
+                z++;
+                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
+                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
+            })
+            break;
+        case 1:
+            y=1;
+            arrayFiltre[1].forEach((element)=>{
+                let labelandcheckbox = getCheckboxandlabel(element, z, y)
+                z++;
+                document.getElementById("btn-appareils").appendChild(labelandcheckbox[0]);
+                document.getElementById("btn-appareils").appendChild(labelandcheckbox[1]);
+            })
+            break;
+        case 2:
+            y=2;
+            arrayFiltre[2].forEach((element)=>{
+                let labelandcheckbox = getCheckboxandlabel(element, z, y)
+                z++;
+                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[0]);
+                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[1]);
+            })
+            break;
+        default:
+            break; 
+    }
+}
+function searchFiltre(){
+    /* x = pointerIngredient w = pointerUstensiles & y=type 1->ingredient 2->Appareils 3->Ustensiles */
+    let x = 0;
+    let w = 0;
+    let y=1;
+    arrayFiltre = [[],arrayFiltre[1],arrayFiltre[2]]
+    recipes.forEach((element)=>{
+        element.ingredients.forEach((ingredient) => {
+            if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
+                if(document.getElementById("input-search-ingredient").value === ingredient.ingredient){
+                    arrayFiltre[0].push(ingredient.ingredient);
+                    y=1;
+                    let labelandcheckbox = getCheckboxandlabel(ingredient.ingredient, x, y)
+                    x++;
+                    document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
+                    document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
+                }
+            }
+        })
+    })
+    //changeFiltre();
+}
+function addactivefiltre(e,y){
+    if(!arrayFiltreActive[y].includes(e.target.name)) arrayFiltreActive[y].push(e.target.name);
+    else arrayFiltreActive[y].splice(arrayFiltreActive[y].indexOf(e.target.name),1);
+    displaylistingredient();
 }
 function getCheckboxandlabel(element, x, y){
     let inputcheckbox = document.createElement("input");
@@ -67,6 +99,8 @@ function getCheckboxandlabel(element, x, y){
     inputcheckbox.className = "btn-check";
     inputcheckbox.type = "checkbox";
     inputcheckbox.autocomplete = "off";
+    inputcheckbox.name = element;
+    inputcheckbox.addEventListener("click",function(e){addactivefiltre(e,y)});
     let labelcheckbox = document.createElement("label");
     labelcheckbox.className = "btn btn-filtrecolor";
     labelcheckbox.setAttribute("for","btncheck"+x+"-"+y);
@@ -79,19 +113,8 @@ function getBtnElement(element){
    btn.className = "btn filtrecolor-checked";
    btn.type = "button";
    btn.ariaExpanded = "false";
-    
-   let findlabel = document.getElementsByTagName('label');
-   let y=0;
-   let elementlabel;
-   while(y<findlabel.length){
-    if(findlabel[y].htmlFor === element.id) {
-        elementlabel=findlabel[y];
-        y = findlabel.length;
-    }
-    y++;
-   }
-   btn.textContent = elementlabel.textContent;
-   btn.id = "checked-"+elementlabel.textContent;
+   btn.textContent = element;
+   btn.name = "checked-"+element;
    let i = document.createElement("i");
    i.className="fa-solid fa-xmark";
    i.addEventListener("click",function(){
@@ -100,9 +123,15 @@ function getBtnElement(element){
    btn.appendChild(i);
    return btn;
 }
-function deleteBtnElement(element){
-    document.getElementById(element.id).checked = false;
-   changelistingredient(); 
+function deleteBtnElement(x){
+    document.getElementsByName(x)[0].checked = false;
+    arrayFiltreActive.forEach((element)=>{
+        if(element.indexOf(x) >= 0){
+            console.log(element.indexOf(x));
+            element.splice(element.indexOf(x),1);
+        }
+    });
+    displaylistingredient(); 
 }
 function getCardRecette(element){
     let article = document.createElement("article");
@@ -166,10 +195,22 @@ function displayCardRecette(){
 }
 let arrayFiltre = [[],[],[]];
 let arrayFiltreActive = [[],[],[]];
-changelistingredient();
-window.addEventListener("change",function(e){changelistingredient(e)}); 
+changeFiltre();
+
+// Display a retirer 
+displaylistingredient();
+
+/*
+document.getElementById("input-search-ingredient").addEventListener("input",function(e){
+    searchFiltre(e);
+})
+document.getElementById("input-search-appareils").addEventListener("input",function(e){
+    searchFiltre(e);
+})
+document.getElementById("input-search-ustensiles").addEventListener("input",function(e){
+    searchFiltre(e);
+})*/
 
 /* Recipes data include at the top of html index */
-console.log(recipes);
 displayCardRecette();
 //Get data jso
