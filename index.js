@@ -17,7 +17,10 @@ function changeFiltre(){
                 arrayFiltre[0].push(ingredient.ingredient);
             }
         })
-        
+        if(arrayFiltre[1].includes(element.appliance) === false) {
+            arrayFiltre[1].push(element.appliance);
+        }
+
         element.ustensils.forEach((ustensils) => {
             if(arrayFiltre[2].includes(ustensils) === false) {
                 arrayFiltre[2].push(ustensils);
@@ -80,7 +83,11 @@ function searchFiltre(e, category){
     if(category === 2){
         arrayFiltre = [arrayFiltre[0],[],arrayFiltre[2]];
         recipes.forEach((element)=>{
-            /* A FAIRE */
+            if(arrayFiltre[1].indexOf(element.appliance) === -1) {
+                if(element.appliance.includes(document.getElementById("input-search-appareils").value)){
+                    arrayFiltre[1].push(element.appliance);
+                }
+            }
         })
         displayFiltre(2);
     }
@@ -214,11 +221,12 @@ document.getElementById("input-search-ingredient").addEventListener("input",func
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,1);
 })
-/*
+
 document.getElementById("input-search-appareils").addEventListener("input",function(e){
-    searchFiltre(e);
+    if(e.target.value === "") changeFiltre();
+    else searchFiltre(e,2);
 })
-*/
+
 document.getElementById("input-search-ustensiles").addEventListener("input",function(e){
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,3);
