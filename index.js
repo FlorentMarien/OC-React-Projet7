@@ -7,10 +7,6 @@ function displaylistingredient(){
     })
 }
 function changeFiltre(){
-    /* x = pointerIngredient w = pointerUstensiles & y=type 1->ingredient 2->Appareils 3->Ustensiles */
-    let x = 0;
-    let w = 0;
-    let y = 1;
     document.getElementById("btn-ingredient").innerHTML = "";
     document.getElementById("btn-appareils").innerHTML = "";
     document.getElementById("btn-ustensiles").innerHTML = "";
@@ -28,65 +24,79 @@ function changeFiltre(){
             }
         })
     })
-
-    displayFiltre(0);
+    displayFiltre(4);
 }
-function displayFiltre(x){
+function displayFiltre(category){
     let z = 0;
     let y = 0;
-    switch (x){
-        case 0:
+    if(category === 1 || category === 4){
             y=0;
+            document.getElementById("btn-ingredient").innerHTML = "";
             arrayFiltre[0].forEach((element)=>{
                 let labelandcheckbox = getCheckboxandlabel(element, z, y)
                 z++;
+                if(arrayFiltreActive[0].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
             })
-            break;
-        case 1:
+    }
+    if(category === 2 || category === 4){
             y=1;
+            document.getElementById("btn-appareils").innerHTML = "";
             arrayFiltre[1].forEach((element)=>{
                 let labelandcheckbox = getCheckboxandlabel(element, z, y)
                 z++;
+                if(arrayFiltreActive[1].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-appareils").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-appareils").appendChild(labelandcheckbox[1]);
             })
-            break;
-        case 2:
+    }
+    if(category === 3 || category === 4){
             y=2;
+            document.getElementById("btn-ustensiles").innerHTML = "";
             arrayFiltre[2].forEach((element)=>{
                 let labelandcheckbox = getCheckboxandlabel(element, z, y)
                 z++;
+                if(arrayFiltreActive[2].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[1]);
             })
-            break;
-        default:
-            break; 
     }
 }
-function searchFiltre(){
-    /* x = pointerIngredient w = pointerUstensiles & y=type 1->ingredient 2->Appareils 3->Ustensiles */
-    let x = 0;
-    let w = 0;
-    let y=1;
-    arrayFiltre = [[],arrayFiltre[1],arrayFiltre[2]]
-    recipes.forEach((element)=>{
-        element.ingredients.forEach((ingredient) => {
-            if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
-                if(document.getElementById("input-search-ingredient").value === ingredient.ingredient){
-                    arrayFiltre[0].push(ingredient.ingredient);
-                    y=1;
-                    let labelandcheckbox = getCheckboxandlabel(ingredient.ingredient, x, y)
-                    x++;
-                    document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
-                    document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
+function searchFiltre(e, category){
+    if(category === 1){
+        arrayFiltre = [[],arrayFiltre[1],arrayFiltre[2]];
+        recipes.forEach((element)=>{
+            element.ingredients.forEach((ingredient) => {
+                if(arrayFiltre[0].indexOf(ingredient.ingredient) === -1) {
+                    if(document.getElementById("input-search-ingredient").value === ingredient.ingredient){
+                        arrayFiltre[0].push(ingredient.ingredient);
+                    }
                 }
-            }
+            })
         })
-    })
-    //changeFiltre();
+        displayFiltre(1);
+    }
+    if(category === 2){
+        arrayFiltre = [arrayFiltre[0],[],arrayFiltre[2]];
+        recipes.forEach((element)=>{
+            /* A FAIRE */
+        })
+        displayFiltre(2);
+    }
+    if(category === 3){
+        arrayFiltre = [arrayFiltre[0],arrayFiltre[1],[]];
+        recipes.forEach((element)=>{
+            element.ustensils.forEach((ustensils) => {
+                if(arrayFiltre[2].indexOf(ustensils) === -1) {
+                    if(document.getElementById("input-search-ustensiles").value === ustensils){
+                        arrayFiltre[2].push(ustensils);
+                    }
+                }
+            })
+        })
+        displayFiltre(3);
+    }
 }
 function addactivefiltre(e,y){
     if(!arrayFiltreActive[y].includes(e.target.name)) arrayFiltreActive[y].push(e.target.name);
@@ -124,10 +134,9 @@ function getBtnElement(element){
    return btn;
 }
 function deleteBtnElement(x){
-    document.getElementsByName(x)[0].checked = false;
+    if(document.getElementsByName(x)[0] !== undefined) document.getElementsByName(x)[0].checked = false;
     arrayFiltreActive.forEach((element)=>{
         if(element.indexOf(x) >= 0){
-            console.log(element.indexOf(x));
             element.splice(element.indexOf(x),1);
         }
     });
@@ -200,16 +209,20 @@ changeFiltre();
 // Display a retirer 
 displaylistingredient();
 
-/*
+
 document.getElementById("input-search-ingredient").addEventListener("input",function(e){
-    searchFiltre(e);
+    if(e.target.value === "") changeFiltre();
+    else searchFiltre(e,1);
 })
+/*
 document.getElementById("input-search-appareils").addEventListener("input",function(e){
     searchFiltre(e);
 })
+*/
 document.getElementById("input-search-ustensiles").addEventListener("input",function(e){
-    searchFiltre(e);
-})*/
+    if(e.target.value === "") changeFiltre();
+    else searchFiltre(e,3);
+})
 
 /* Recipes data include at the top of html index */
 displayCardRecette();
