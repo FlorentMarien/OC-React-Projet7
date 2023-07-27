@@ -1,33 +1,47 @@
 function changelistingredient(e){
-    array = [];
+    arrayFiltreActive = [[],[],[]];
     document.getElementById("btn-ingredient").childNodes.forEach((element)=>{
         if(element !== Text) {
             if(element.checked === true){
-                array.push(element);
+                arrayFiltreActive[0].push(element);
             }
         }
     })
     document.getElementById("btn-appareils").childNodes.forEach((element)=>{
         if(element !== Text) {
             if(element.checked === true){
-                array.push(element);
+                arrayFiltreActive[1].push(element);
             }
         }
     })
     document.getElementById("btn-ustensiles").childNodes.forEach((element)=>{
         if(element !== Text) {
             if(element.checked === true){
-                array.push(element);
+                arrayFiltreActive[2].push(element);
             }
         }
     })
+    changeFiltre();
     displaylistingredient();
 }
 function displaylistingredient(){
     document.getElementsByClassName("blockfiltres-filtresChecked")[0].innerHTML = "";
-    array.forEach((element)=>{
-        document.getElementsByClassName("blockfiltres-filtresChecked")[0].appendChild(getBtnElement(element));
+    arrayFiltreActive.forEach((pointer)=>{
+        pointer.forEach((element)=>{
+            document.getElementsByClassName("blockfiltres-filtresChecked")[0].appendChild(getBtnElement(element));    
+        })
     })
+}
+function changeFiltre(){
+    recipes.forEach((element)=>{
+        element.ingredients.forEach((ingredient) => {
+            if(arrayFiltre[0].includes(ingredient.ingredient) === false) arrayFiltre[0].push(ingredient.ingredient);
+        })
+        element.ustensils.forEach((ingredient) => {
+            if(arrayFiltre[2].includes(ingredient) === false) arrayFiltre[2].push(ingredient);
+        })
+    })
+    
 }
 function getBtnElement(element){
    let btn = document.createElement("button");
@@ -67,7 +81,7 @@ function getCardRecette(element){
     img.src = "assets/PhotosRecettes/"+element.image;
     let divtime = document.createElement("div");
     divtime.className = "recettes-card-time";
-    divtime.textContent = element.time;
+    divtime.textContent = element.time+"min";
     divcontent = document.createElement("div");
     divcontent.className = "recettes-card-recettes";
     let p = document.createElement("p");
@@ -93,8 +107,9 @@ function getCardRecette(element){
         let pIngredientQuantity = document.createElement("p");
         pIngredientTitle.textContent = element.ingredient;
         pIngredientQuantity.className = "recettes-card-recettes-ingredient";
-        let unit = element.unit === undefined ? " " : " "+element.unit;
-        pIngredientQuantity.textContent = element.quantity + unit;
+        let unit = element.unit === undefined ? "" : " "+element.unit;
+        let quantity = element.quantity === undefined ? "" : " "+element.quantity;
+        pIngredientQuantity.textContent = quantity + unit;
         div.appendChild(pIngredientTitle);
         div.appendChild(pIngredientQuantity);
         section.appendChild(div);
@@ -118,7 +133,8 @@ function displayCardRecette(){
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
-let array = [];
+let arrayFiltre = [[],[],[]];
+let arrayFiltreActive = [[],[],[]];
 changelistingredient();
 window.addEventListener("change",function(e){changelistingredient(e)}); 
 
