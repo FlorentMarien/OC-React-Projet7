@@ -33,15 +33,46 @@ function displaylistingredient(){
     })
 }
 function changeFiltre(){
+    /* x = pointerIngredient w = pointerUstensiles & y=type 1->ingredient 2->Appareils 3->Ustensiles */
+    let x = 0;
+    let w = 0;
+    let y=1;
     recipes.forEach((element)=>{
         element.ingredients.forEach((ingredient) => {
-            if(arrayFiltre[0].includes(ingredient.ingredient) === false) arrayFiltre[0].push(ingredient.ingredient);
+            if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
+                arrayFiltre[0].push(ingredient.ingredient);
+                y=1;
+                let labelandcheckbox = getCheckboxandlabel(ingredient.ingredient, x, y)
+                x++;
+                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
+                document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
+            }
         })
-        element.ustensils.forEach((ingredient) => {
-            if(arrayFiltre[2].includes(ingredient) === false) arrayFiltre[2].push(ingredient);
+        
+        element.ustensils.forEach((ustensils) => {
+            if(arrayFiltre[2].includes(ustensils) === false) {
+                arrayFiltre[2].push(ustensils);
+                y=3;
+                let labelandcheckbox = getCheckboxandlabel(ustensils, w, y)
+                w++;
+                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[0]);
+                document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[1]);
+            }
         })
     })
-    
+}
+function getCheckboxandlabel(element, x, y){
+    let inputcheckbox = document.createElement("input");
+    inputcheckbox.id = "btncheck"+x+"-"+y;
+    inputcheckbox.className = "btn-check";
+    inputcheckbox.type = "checkbox";
+    inputcheckbox.autocomplete = "off";
+    let labelcheckbox = document.createElement("label");
+    labelcheckbox.className = "btn btn-filtrecolor";
+    labelcheckbox.setAttribute("for","btncheck"+x+"-"+y);
+    labelcheckbox.textContent = element;
+    return [inputcheckbox,labelcheckbox];
+
 }
 function getBtnElement(element){
    let btn = document.createElement("button");

@@ -28,6 +28,17 @@
 }
 
 /* Filtre */
+.blockfiltres{
+    margin: 0 2%;
+}
+.btn-group-verticalperso{
+    display: flex;
+    flex-direction: column;
+}
+#btn-ingredient,#btn-appareils,#btn-ustensiles{
+    height: 300px;
+    overflow: auto;
+}
 .blockfiltres-filtres{
     margin: 10px 0;
 }
@@ -38,7 +49,7 @@
     justify-content: space-between;
 }
 .dropdown, .blockfiltres-filtresChecked button{
-    margin:0 5px;
+    margin-right:5px;
 }
 .btn-group-vertical .input-group{
     margin-bottom: 25px;
@@ -64,9 +75,11 @@
 .btn-check:checked + .btn-filtrecolor{
     background-color: orange;
     border-color: transparent;
+    border-radius: 0;
 }
 /* Recette card */
 #container-recettes-card{
+    margin: 10px 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
