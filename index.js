@@ -10,7 +10,7 @@ function changeFiltre(){
     document.getElementById("btn-ingredient").innerHTML = "";
     document.getElementById("btn-appareils").innerHTML = "";
     document.getElementById("btn-ustensiles").innerHTML = "";
-
+    arrayFiltre = [[],[],[]];
     recipes.forEach((element)=>{
         element.ingredients.forEach((ingredient) => {
             if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
@@ -69,7 +69,7 @@ function searchFiltre(e, category){
         recipes.forEach((element)=>{
             element.ingredients.forEach((ingredient) => {
                 if(arrayFiltre[0].indexOf(ingredient.ingredient) === -1) {
-                    if(document.getElementById("input-search-ingredient").value === ingredient.ingredient){
+                    if(ingredient.ingredient.includes(document.getElementById("input-search-ingredient").value)){
                         arrayFiltre[0].push(ingredient.ingredient);
                     }
                 }
@@ -89,7 +89,7 @@ function searchFiltre(e, category){
         recipes.forEach((element)=>{
             element.ustensils.forEach((ustensils) => {
                 if(arrayFiltre[2].indexOf(ustensils) === -1) {
-                    if(document.getElementById("input-search-ustensiles").value === ustensils){
+                    if(ustensils.includes(document.getElementById("input-search-ustensiles").value)){
                         arrayFiltre[2].push(ustensils);
                     }
                 }
