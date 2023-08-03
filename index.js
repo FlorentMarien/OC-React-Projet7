@@ -209,13 +209,9 @@ function displayCardRecette(){
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
+
 let arrayFiltre = [[],[],[]];
 let arrayFiltreActive = [[],[],[]];
-changeFiltre();
-
-// Display a retirer 
-displaylistingredient();
-
 
 document.getElementById("input-search-ingredient").addEventListener("input",function(e){
     if(e.target.value === "") changeFiltre();
@@ -233,5 +229,5 @@ document.getElementById("input-search-ustensiles").addEventListener("input",func
 })
 
 /* Recipes data include at the top of html index */
+changeFiltre();
 displayCardRecette();
-//Get data jso
