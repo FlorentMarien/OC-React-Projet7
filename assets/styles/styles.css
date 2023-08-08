@@ -9,6 +9,10 @@ body{
     background-color: lightgray;
 }
 /* Header */
+.input-group-text{
+    background: black;
+color: white;
+}
 .recherche-header{
     position: relative;
     display: flex;
@@ -67,7 +71,7 @@ body{
 }
 .blockfiltres-filtresChecked{
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 .blockfiltres-filtres{
     justify-content: space-between;
@@ -116,9 +120,6 @@ body{
 .filtrecolor-checked{
     margin-bottom: 10px;
 }
-.filtrecolor-checked + .filtrecolor-checked{
-    
-}
 .blockfiltres-filtres h2{
     font-weight: bolder;
     color: black;
@@ -127,6 +128,11 @@ body{
 }
 .dropdown-menu{
     width: 196px;
+}
+.filtrecolor-checked, .filtrecolor{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 /* Recette card */
 #container-recettes-card{
@@ -253,10 +259,20 @@ ul li{
     .blockfiltres .blockfiltres-filtres div button{
         margin: 0;
     }
+    .blockfiltres-filtresChecked{
+        flex-direction: column;
+        align-items: center;
+    }
     #container-recettes-card{
         justify-content: center;
     }
     .blockfiltres-filtres{
         margin: 20px 0;
+    }
+}
+@media (max-width: 449.98px){
+    .blockfiltres-filtresChecked{
+        flex-direction: column;
+        align-content: center;
     }
 }
