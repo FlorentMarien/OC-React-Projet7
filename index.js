@@ -5,6 +5,7 @@ function displaylistingredient(){
             document.getElementsByClassName("blockfiltres-filtresChecked")[0].appendChild(getBtnElement(element));    
         })
     })
+    displayRecettesFiltred(displayRecette);
 }
 function changeFiltre(){
     document.getElementById("btn-ingredient").innerHTML = "";
@@ -13,17 +14,17 @@ function changeFiltre(){
     arrayFiltre = [[],[],[]];
     recipes.forEach((element)=>{
         element.ingredients.forEach((ingredient) => {
-            if(arrayFiltre[0].includes(ingredient.ingredient) === false) {
-                arrayFiltre[0].push(ingredient.ingredient);
+            if(arrayFiltre[0].includes(ingredient.ingredient.toLowerCase()) === false) {
+                arrayFiltre[0].push(ingredient.ingredient.toLowerCase());
             }
         })
-        if(arrayFiltre[1].includes(element.appliance) === false) {
-            arrayFiltre[1].push(element.appliance);
+        if(arrayFiltre[1].includes(element.appliance.toLowerCase()) === false) {
+            arrayFiltre[1].push(element.appliance.toLowerCase());
         }
 
         element.ustensils.forEach((ustensils) => {
-            if(arrayFiltre[2].includes(ustensils) === false) {
-                arrayFiltre[2].push(ustensils);
+            if(arrayFiltre[2].includes(ustensils.toLowerCase()) === false) {
+                arrayFiltre[2].push(ustensils.toLowerCase());
             }
         })
     })
@@ -38,7 +39,7 @@ function displayFiltre(category){
             arrayFiltre[0].forEach((element)=>{
                 let labelandcheckbox = getCheckboxandlabel(element, z, y)
                 z++;
-                if(arrayFiltreActive[0].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
+                if(arrayFiltreActive[0].indexOf(element.toLowerCase()) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-ingredient").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-ingredient").appendChild(labelandcheckbox[1]);
             })
@@ -47,9 +48,9 @@ function displayFiltre(category){
             y=1;
             document.getElementById("btn-appareils").innerHTML = "";
             arrayFiltre[1].forEach((element)=>{
-                let labelandcheckbox = getCheckboxandlabel(element, z, y)
+                let labelandcheckbox = getCheckboxandlabel(element.toLowerCase(), z, y)
                 z++;
-                if(arrayFiltreActive[1].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
+                if(arrayFiltreActive[1].indexOf(element.toLowerCase()) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-appareils").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-appareils").appendChild(labelandcheckbox[1]);
             })
@@ -58,9 +59,9 @@ function displayFiltre(category){
             y=2;
             document.getElementById("btn-ustensiles").innerHTML = "";
             arrayFiltre[2].forEach((element)=>{
-                let labelandcheckbox = getCheckboxandlabel(element, z, y)
+                let labelandcheckbox = getCheckboxandlabel(element.toLowerCase(), z, y)
                 z++;
-                if(arrayFiltreActive[2].indexOf(element) >= 0) labelandcheckbox[0].checked = true; 
+                if(arrayFiltreActive[2].indexOf(element.toLowerCase()) >= 0) labelandcheckbox[0].checked = true; 
                 document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[0]);
                 document.getElementById("btn-ustensiles").appendChild(labelandcheckbox[1]);
             })
@@ -71,9 +72,9 @@ function searchFiltre(e, category){
         arrayFiltre = [[],arrayFiltre[1],arrayFiltre[2]];
         recipes.forEach((element)=>{
             element.ingredients.forEach((ingredient) => {
-                if(arrayFiltre[0].indexOf(ingredient.ingredient) === -1) {
-                    if(ingredient.ingredient.includes(document.getElementById("input-search-ingredient").value)){
-                        arrayFiltre[0].push(ingredient.ingredient);
+                if(arrayFiltre[0].indexOf(ingredient.ingredient.toLowerCase()) === -1) {
+                    if(ingredient.ingredient.toLowerCase().includes(document.getElementById("input-search-ingredient").value.toLowerCase())){
+                        arrayFiltre[0].push(ingredient.ingredient.toLowerCase());
                     }
                 }
             })
@@ -83,9 +84,9 @@ function searchFiltre(e, category){
     if(category === 2){
         arrayFiltre = [arrayFiltre[0],[],arrayFiltre[2]];
         recipes.forEach((element)=>{
-            if(arrayFiltre[1].indexOf(element.appliance) === -1) {
-                if(element.appliance.includes(document.getElementById("input-search-appareils").value)){
-                    arrayFiltre[1].push(element.appliance);
+            if(arrayFiltre[1].indexOf(element.appliance.toLowerCase()) === -1) {
+                if(element.appliance.toLowerCase().includes(document.getElementById("input-search-appareils").value.toLowerCase())){
+                    arrayFiltre[1].push(element.appliance.toLowerCase());
                 }
             }
         })
@@ -95,9 +96,9 @@ function searchFiltre(e, category){
         arrayFiltre = [arrayFiltre[0],arrayFiltre[1],[]];
         recipes.forEach((element)=>{
             element.ustensils.forEach((ustensils) => {
-                if(arrayFiltre[2].indexOf(ustensils) === -1) {
-                    if(ustensils.includes(document.getElementById("input-search-ustensiles").value)){
-                        arrayFiltre[2].push(ustensils);
+                if(arrayFiltre[2].indexOf(ustensils.toLowerCase()) === -1) {
+                    if(ustensils.toLowerCase().includes(document.getElementById("input-search-ustensiles").value.toLowerCase())){
+                        arrayFiltre[2].push(ustensils.toLowerCase());
                     }
                 }
             })
@@ -204,14 +205,70 @@ function getCardRecette(element){
     article.appendChild(divcontent);
     return article
 }
-function displayCardRecette(){
-    recipes.forEach((element)=>{
+function displayCardRecette(element){
+    document.getElementById("container-recettes-card").innerHTML = "";
+    if(element.length === 0){
+        let p = document.createElement("p");
+        p.textContent = "Aucun resultat avec votre recherche";
+        document.getElementById("container-recettes-card").appendChild(p);
+    }
+    element.forEach((element)=>{
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
+function displayRecettesFiltred(arrayRecipes){
+    arrayRecipes = [...displayRecette];
+    let x = 0;
+    let y = 0;
+    let z = 0;
+    let nbrfiltreactive = arrayFiltreActive[0].length + arrayFiltreActive[1].length + arrayFiltreActive[2].length;
+    let arrayMatch = [];
+    if(nbrfiltreactive > 0){
+        while(x < arrayRecipes.length){
+            if(arrayFiltreActive[0].length > 0){
+                while(z < arrayRecipes[x].ingredients.length){
+                    if(arrayFiltreActive[0].includes(arrayRecipes[x].ingredients[z].ingredient.toLowerCase())){
+                        y++;
+                    }
+                    z++;
+                }
+                z=0;
+            }
+            if(arrayFiltreActive[1].length > 0){
+                if(arrayFiltreActive[1].includes(arrayRecipes[x].appliance.toLowerCase())){
+                   y++;
+                }        
+            }
+            if(arrayFiltreActive[2].length > 0){
+                while(z < arrayRecipes[x].ustensils.length){
+                    if(arrayFiltreActive[2].includes(arrayRecipes[x].ustensils[z].toLowerCase())){
+                        y++;
+                    }
+                    z++;
+                }
+                z=0;
+            }
 
+            if(y >= nbrfiltreactive){
+                if(y!==0){
+                arrayMatch.push(arrayRecipes[x]);
+                arrayRecipes.splice(x,1)
+               
+                }
+            }
+            console.log(y);
+            y=0;
+            x++;
+        }
+    }else{
+        arrayMatch = arrayRecipes;
+    }
+    displayCardRecette(arrayMatch);
+    
+}
 let arrayFiltre = [[],[],[]];
 let arrayFiltreActive = [[],[],[]];
+let displayRecette = [...recipes];
 
 document.getElementById("input-search-ingredient").addEventListener("input",function(e){
     if(e.target.value === "") changeFiltre();
@@ -227,7 +284,6 @@ document.getElementById("input-search-ustensiles").addEventListener("input",func
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,3);
 })
-
 /* Recipes data include at the top of html index */
 changeFiltre();
-displayCardRecette();
+displayCardRecette(displayRecette);
