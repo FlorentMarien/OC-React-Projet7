@@ -216,9 +216,49 @@ function displayCardRecette(element){
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
+function searchRecette(inputvalue){
+    let arrayRecipes = [...recipes];
+    let arrayMatch = [];
+    //Verif injection input
+    
+    //
+    let x=0;
+    let y=0;
+    let z=0;
+    if(inputvalue.target.value.length > 2){
+        /* Second version */
+        arrayMatch = arrayRecipes.filter((element) => {
+            if(element.name.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                //Comparaison titre
+                return element;
+            }else if(element.description.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                //Comparaison description
+                return element;
+            }else{
+                let verif = null;
+                element.ingredients.every((element_ingredient)=>{
+                    if(element_ingredient.ingredient.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                        tampon = element_ingredient; 
+                        return false;
+                    }
+                    return true;
+                });
+                if(verif !== null) return tampon;
+            }
+        });
+        
+        displayRecette = arrayMatch
+        displayRecettesFiltred(displayRecette)
+    }else{
+        if(document.getElementById("container-recettes-card").childNodes.length !== recipes.length ){
+            displayRecette = [...recipes];
+            displayRecettesFiltred(displayRecette);
+        }
+    }
+}
 function displayRecettesFiltred(backarrayRecipes){
     let arrayRecipes = [...backarrayRecipes];
-    console.log(arrayRecipes);
+    //console.log(arrayRecipes);
     let x = 0;
     let y = 0;
     let z = 0;
@@ -283,7 +323,7 @@ document.getElementById("input-search-ustensiles").addEventListener("input",func
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,3);
 })
-
+document.getElementById("inputsearch").addEventListener("input",function(e){searchRecette(e)})
 /* Recipes data include at the top of html index */
 changeFiltre();
 displayCardRecette(displayRecette);
