@@ -209,15 +209,16 @@ function displayCardRecette(element){
     document.getElementById("container-recettes-card").innerHTML = "";
     if(element.length === 0){
         let p = document.createElement("p");
-        p.textContent = "Aucun resultat avec votre recherche";
+        p.textContent = 'Aucun resultat avec votre recherche "'+document.getElementById("inputsearch").value+'"';
         document.getElementById("container-recettes-card").appendChild(p);
     }
     element.forEach((element)=>{
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
-function displayRecettesFiltred(arrayRecipes){
-    arrayRecipes = [...displayRecette];
+function displayRecettesFiltred(backarrayRecipes){
+    let arrayRecipes = [...backarrayRecipes];
+    console.log(arrayRecipes);
     let x = 0;
     let y = 0;
     let z = 0;
@@ -252,11 +253,9 @@ function displayRecettesFiltred(arrayRecipes){
             if(y >= nbrfiltreactive){
                 if(y!==0){
                 arrayMatch.push(arrayRecipes[x]);
-                arrayRecipes.splice(x,1)
-               
+                //arrayRecipes.splice(x,1);
                 }
             }
-            console.log(y);
             y=0;
             x++;
         }
@@ -284,6 +283,7 @@ document.getElementById("input-search-ustensiles").addEventListener("input",func
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,3);
 })
+
 /* Recipes data include at the top of html index */
 changeFiltre();
 displayCardRecette(displayRecette);
