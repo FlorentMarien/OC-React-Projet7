@@ -216,6 +216,47 @@ function displayCardRecette(element){
         document.getElementById("container-recettes-card").appendChild(getCardRecette(element));
     })
 }
+function searchRecette(inputvalue){
+    let arrayRecipes = [...recipes];
+    let arrayMatch = [];
+    //Verif injection input
+    
+    //
+    let x=0;
+    let y=0;
+    let z=0;
+    if(inputvalue.target.value.length > 2){
+        /* First version */
+        while(x < arrayRecipes.length){
+            if(arrayRecipes[x].name.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                //Comparaison titre
+                arrayMatch.push(arrayRecipes[x]);
+            }else if(arrayRecipes[x].description.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                //Comparaison description
+                arrayMatch.push(arrayRecipes[x]);
+            }else{
+                while(y < arrayRecipes[x].ingredients.length){
+                    //Comparaison ingredient
+                    if(arrayRecipes[x].ingredients[y].ingredient.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                        arrayMatch.push(arrayRecipes[x]);
+                        break;
+                    }
+                    y++;
+                }
+                y=0;
+            }
+            x++;
+        }
+        
+        displayRecette = arrayMatch
+        displayRecettesFiltred(displayRecette)
+    }else{
+        if(document.getElementById("container-recettes-card").childNodes.length !== recipes.length ){
+            displayRecette = [...recipes];
+            displayRecettesFiltred(displayRecette);
+        }
+    }
+}
 function displayRecettesFiltred(backarrayRecipes){
     let arrayRecipes = [...backarrayRecipes];
     console.log(arrayRecipes);
@@ -283,7 +324,7 @@ document.getElementById("input-search-ustensiles").addEventListener("input",func
     if(e.target.value === "") changeFiltre();
     else searchFiltre(e,3);
 })
-
+document.getElementById("inputsearch").addEventListener("input",function(e){searchRecette(e)})
 /* Recipes data include at the top of html index */
 changeFiltre();
 displayCardRecette(displayRecette);
