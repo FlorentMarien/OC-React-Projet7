@@ -238,15 +238,14 @@ function searchRecette(inputvalue){
                 let verif = null;
                 element.ingredients.every((element_ingredient)=>{
                     if(element_ingredient.ingredient.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
-                        tampon = element_ingredient; 
+                        verif = element_ingredient; 
                         return false;
                     }
                     return true;
                 });
-                if(verif !== null) return tampon;
+                if(verif !== null) return verif;
             }
         });
-        
         displayRecette = arrayMatch
         displayRecettesFiltred(displayRecette)
     }else{
@@ -258,7 +257,7 @@ function searchRecette(inputvalue){
 }
 function displayRecettesFiltred(backarrayRecipes){
     let arrayRecipes = [...backarrayRecipes];
-    //console.log(arrayRecipes);
+    console.log(arrayRecipes);
     let x = 0;
     let y = 0;
     let z = 0;
