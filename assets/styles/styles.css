@@ -87,9 +87,6 @@ color: white;
 .dropdown + .dropdown button{
     margin-left: 50px;
 }
-.dropdown, .blockfiltres-filtresChecked button{
-   
-}
 .btn-group-vertical .input-group{
     margin-bottom: 25px;
 }
