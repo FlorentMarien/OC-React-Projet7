@@ -53,7 +53,12 @@ color: white;
 .input-group i{
     display: flex;
 }
-
+.fa-solid{
+    display: flex;
+}
+.label-input-search{
+    display: none;
+}
 /* Filtre */
 .blockfiltres{
     margin: 0 2%;

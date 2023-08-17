@@ -155,6 +155,7 @@ function getCardRecette (element) {
   const img = document.createElement('img')
   img.className = 'recettes-card-img'
   img.src = 'assets/PhotosRecettes/' + element.image
+  img.alt = 'Image ' + element.name
   const divtime = document.createElement('div')
   divtime.className = 'recettes-card-time'
   divtime.textContent = element.time + 'min'
