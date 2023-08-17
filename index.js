@@ -220,39 +220,40 @@ function searchRecette(inputvalue){
     let arrayRecipes = [...recipes];
     let arrayMatch = [];
     //Verif injection input
-    
-    //
-    let x=0;
-    let y=0;
-    let z=0;
-    if(inputvalue.target.value.length > 2){
-        /* Second version */
-        arrayMatch = arrayRecipes.filter((element) => {
-            if(element.name.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
-                //Comparaison titre
-                return element;
-            }else if(element.description.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
-                //Comparaison description
-                return element;
-            }else{
-                let verif = null;
-                element.ingredients.every((element_ingredient)=>{
-                    if(element_ingredient.ingredient.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
-                        verif = element_ingredient; 
-                        return false;
-                    }
-                    return true;
-                });
-                if(verif !== null) return verif;
+    if(inputvalue.target.value.includes('<') || inputvalue.target.value.includes('>')){
+        document.getElementById("inputsearch").className = "form-control errorinput";
+    }
+    else{
+        document.getElementById("inputsearch").className = "form-control";
+        if(inputvalue.target.value.length > 2){
+            /* Second version */
+            arrayMatch = arrayRecipes.filter((element) => {
+                if(element.name.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                    //Comparaison titre
+                    return element;
+                }else if(element.description.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                    //Comparaison description
+                    return element;
+                }else{
+                    let verif = null;
+                    element.ingredients.every((element_ingredient)=>{
+                        if(element_ingredient.ingredient.toLowerCase().includes(inputvalue.target.value.toLowerCase())){
+                            verif = element_ingredient; 
+                            return false;
+                        }
+                        return true;
+                    });
+                    if(verif !== null) return verif;
+                }
+            });
+            displayRecette = arrayMatch
+            displayRecettesFiltred(displayRecette)
+            changeFiltre(displayRecette);
+        }else{
+            if(document.getElementById("container-recettes-card").childNodes.length !== recipes.length ){
+                displayRecette = [...recipes];
+                displayRecettesFiltred(displayRecette);
             }
-        });
-        displayRecette = arrayMatch
-        displayRecettesFiltred(displayRecette)
-        changeFiltre(displayRecette);
-    }else{
-        if(document.getElementById("container-recettes-card").childNodes.length !== recipes.length ){
-            displayRecette = [...recipes];
-            displayRecettesFiltred(displayRecette);
         }
     }
 }
