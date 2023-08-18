@@ -11,7 +11,7 @@ body{
 /* Header */
 .input-group-text{
     background: black;
-color: white;
+    color: white;
 }
 .recherche-header{
     position: relative;
@@ -21,8 +21,12 @@ color: white;
     align-items: center;
     height: 667px;
     background-color: white;
-    background-image: url("/assets/images/layered-waves-haikei(3).svg");
+    background-image: url("/assets/images/header.svg");
     background-repeat: no-repeat;
+    background-size: cover;
+}
+.recherche-header-titre svg path{
+    fill: white;
 }
 .errorinput:focus{
     border-color: red;
@@ -39,7 +43,7 @@ color: white;
     left: 5%;
     text-transform: uppercase;
     font-weight: bold;
-    color: black;
+    color: white;
     margin: 0;
 }
 .recherche-section{
