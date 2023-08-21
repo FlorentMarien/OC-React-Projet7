@@ -1,4 +1,5 @@
 function displaylistingredient () {
+  // DisplayTagIngredient
   document.getElementsByClassName('blockfiltres-filtresChecked')[0].innerHTML = ''
   arrayFiltreActive.forEach((pointer) => {
     pointer.forEach((element) => {
@@ -112,6 +113,7 @@ function addactivefiltre (e, y) {
   displaylistingredient()
 }
 function getCheckboxandlabel (element, x, y) {
+  // x = incrementation // y = type, 0 Ingredients, 1 Appareils, 0 Usentensiles
   const inputcheckbox = document.createElement('input')
   inputcheckbox.id = 'btncheck' + x + '-' + y
   inputcheckbox.className = 'btn-check'
